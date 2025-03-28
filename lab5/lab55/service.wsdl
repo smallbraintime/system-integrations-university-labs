@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://example.com/clientService"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://example.com/clientService">
+
+    <!-- Messages -->
+    <message name="getAllClientsRequest"/>
+    <message name="getAllClientsResponse">
+        <part name="clients" type="xsd:string"/>
+    </message>
+
+    <message name="addClientRequest">
+        <part name="name" type="xsd:string"/>
+    </message>
+    <message name="addClientResponse"/>
+
+    <!-- Port Type -->
+    <portType name="ClientServicePortType">
+        <operation name="getAllClients">
+            <input message="tns:getAllClientsRequest"/>
+            <output message="tns:getAllClientsResponse"/>
+        </operation>
+        <operation name="addClient">
+            <input message="tns:addClientRequest"/>
+            <output message="tns:addClientResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="ClientServiceBinding" type="tns:ClientServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+
+        <operation name="getAllClients">
+            <soap:operation soapAction="http://localhost:8080/client"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+
+        <operation name="addClient">
+            <soap:operation soapAction="http://localhost:8080/client"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="ClientService">
+        <port name="ClientServicePort" binding="tns:ClientServiceBinding">
+            <soap:address location="http://localhost:8080/client"/>
+        </port>
+    </service>
+
+</definitions>
+
